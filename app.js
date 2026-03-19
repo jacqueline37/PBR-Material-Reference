@@ -80,10 +80,10 @@ function renderNotes(notes) {
   });
 }
 
-function renderEngineMapping(mapping) {
+function renderEngineRows(rows) {
   engineOutput.innerHTML = "";
 
-  Object.entries(mapping).forEach(([key, value]) => {
+  rows.forEach(([key, value]) => {
     const row = document.createElement("div");
     row.className = "engine-row";
     row.innerHTML = `<span>${key}</span><strong>${value}</strong>`;
@@ -110,10 +110,64 @@ function renderAlbedo(material) {
   swatchMaxText.textContent = `${maxHex} / linear ${maxLinear.map(formatNumber).join(", ")}`;
 }
 
+function buildPresetRows(material, engine) {
+  const rows = [];
+  const minHex = linearRgbToHex(material.albedo.min);
+  const maxHex = linearRgbToHex(material.albedo.max);
+
+  rows.push(["Base Color (sRGB)", `${minHex} - ${maxHex}`]);
+  rows.push([
+    "Base Color (Linear)",
+    `${material.albedo.min.map(formatNumber).join(", ")} - ${material.albedo.max.map(formatNumber).join(", ")}`
+  ]);
+  rows.push(["Metallic", formatNumber(material.metallic)]);
+
+  if (engine === "unity") {
+    const smoothnessMin = 1 - material.roughness.max;
+    const smoothnessMax = 1 - material.roughness.min;
+
+    rows.push([
+      "Smoothness",
+      formatRange(smoothnessMin, smoothnessMax)
+    ]);
+    rows.push(["Workflow Note", "Unity/HDRP commonly uses Smoothness rather than Roughness"]);
+  } else {
+    rows.push([
+      "Roughness",
+      formatRange(material.roughness.min, material.roughness.max)
+    ]);
+  }
+
+  if (material.metallic >= 1) {
+    rows.push(["Specular", "Metal workflow"]);
+  } else {
+    if (engine === "unreal") {
+      rows.push(["Specular", "Usually leave at default"]);
+    } else if (engine === "unity") {
+      rows.push(["Specular", "Usually handled by workflow/shader model"]);
+    } else {
+      rows.push(["Specular", formatNumber(material.specular)]);
+    }
+
+    if (material.f0 !== null) {
+      rows.push(["F0", formatNumber(material.f0)]);
+    }
+  }
+
+  if (engine === "blender") {
+    rows.push(["Workflow Note", "Blender Principled uses Roughness directly"]);
+  } else if (engine === "unreal") {
+    rows.push(["Workflow Note", "Unreal uses Roughness directly"]);
+  } else if (engine === "generic") {
+    rows.push(["Workflow Note", "Generic metal/roughness workflow"]);
+  }
+
+  return rows;
+}
+
 function renderMaterial() {
   const material = getSelectedMaterial();
   const engine = engineSelect.value;
-  const mapping = material.engines[engine];
   const engineLabel = engineSelect.options[engineSelect.selectedIndex].text;
 
   resultName.textContent = material.name;
@@ -139,10 +193,10 @@ function renderMaterial() {
     specularValue.textContent = "Metal workflow";
   }
 
-  engineTitle.textContent = `Engine Mapping - ${engineLabel}`;
+  engineTitle.textContent = `Preset Output - ${engineLabel}`;
 
   renderNotes(material.notes);
-  renderEngineMapping(mapping);
+  renderEngineRows(buildPresetRows(material, engine));
 }
 
 populateMaterialSelect();
