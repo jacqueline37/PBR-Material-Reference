@@ -26,11 +26,9 @@ function clamp(value, min, max) {
 
 function linearToSrgbChannel(linear) {
   const c = clamp(linear, 0, 1);
-
   if (c <= 0.0031308) {
     return 12.92 * c;
   }
-
   return 1.055 * Math.pow(c, 1 / 2.4) - 0.055;
 }
 
@@ -126,16 +124,11 @@ function buildPresetRows(material, engine) {
     const smoothnessMin = 1 - material.roughness.max;
     const smoothnessMax = 1 - material.roughness.min;
 
-    rows.push([
-      "Smoothness",
-      formatRange(smoothnessMin, smoothnessMax)
-    ]);
+    rows.push(["Smoothness", formatRange(smoothnessMin, smoothnessMax)]);
+    rows.push(["Derived From", `1 - Roughness (${formatRange(material.roughness.min, material.roughness.max)})`]);
     rows.push(["Workflow Note", "Unity/HDRP commonly uses Smoothness rather than Roughness"]);
   } else {
-    rows.push([
-      "Roughness",
-      formatRange(material.roughness.min, material.roughness.max)
-    ]);
+    rows.push(["Roughness", formatRange(material.roughness.min, material.roughness.max)]);
   }
 
   if (material.metallic >= 1) {
@@ -144,7 +137,7 @@ function buildPresetRows(material, engine) {
     if (engine === "unreal") {
       rows.push(["Specular", "Usually leave at default"]);
     } else if (engine === "unity") {
-      rows.push(["Specular", "Usually handled by workflow/shader model"]);
+      rows.push(["Specular", "Usually handled by shader/workflow"]);
     } else {
       rows.push(["Specular", formatNumber(material.specular)]);
     }
