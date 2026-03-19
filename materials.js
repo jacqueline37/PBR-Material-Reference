@@ -3,38 +3,41 @@ const MATERIALS = [
     id: "concrete",
     name: "Concrete",
     description: "Clean, dry, uncoated concrete in a standard untreated state.",
-    reflectance: "20-30%",
-    albedo: "0.40-0.55",
-    roughness: "0.80-0.95",
-    metallic: "0.0",
-    specular: "0.5",
-    f0: "~0.04",
+    reflectance: { min: 0.20, max: 0.30 },
+    albedo: {
+      min: [0.40, 0.40, 0.40],
+      max: [0.55, 0.55, 0.55]
+    },
+    roughness: { min: 0.80, max: 0.95 },
+    metallic: 0.0,
+    specular: 0.5,
+    f0: 0.04,
     notes: [
       "Use this as a starting point for raw untreated concrete.",
       "Roughness carries most of the material feel.",
-      "Avoid making non-metal concrete too dark or too glossy."
+      "Avoid making non-metal concrete too glossy."
     ],
     engines: {
       generic: {
-        "Base Color": "0.40-0.55 neutral grey",
+        "Base Color": "Use the suggested sRGB/Linear range",
         "Metallic": "0.0",
         "Roughness": "0.80-0.95",
         "Specular": "0.5"
       },
       blender: {
-        "Base Color": "0.40-0.55 grey",
+        "Base Color": "Use the suggested sRGB/Linear range",
         "Metallic": "0.0",
         "Roughness": "0.80-0.95",
         "Specular": "0.5"
       },
       unreal: {
-        "Base Color": "0.40-0.55 grey",
+        "Base Color": "Use the suggested sRGB/Linear range",
         "Metallic": "0.0",
         "Roughness": "0.80-0.95",
-        "Specular": "default or 0.5-like"
+        "Specular": "Default"
       },
       unity: {
-        "Base Color": "0.40-0.55 grey",
+        "Base Color": "Use the suggested sRGB/Linear range",
         "Metallic": "0.0",
         "Smoothness": "0.05-0.20"
       }
@@ -44,12 +47,15 @@ const MATERIALS = [
     id: "plaster",
     name: "Plaster",
     description: "Clean, dry plaster or similar matte mineral wall material.",
-    reflectance: "50-75%",
-    albedo: "0.60-0.80",
-    roughness: "0.65-0.85",
-    metallic: "0.0",
-    specular: "0.5",
-    f0: "~0.04",
+    reflectance: { min: 0.50, max: 0.75 },
+    albedo: {
+      min: [0.60, 0.60, 0.58],
+      max: [0.80, 0.80, 0.78]
+    },
+    roughness: { min: 0.65, max: 0.85 },
+    metallic: 0.0,
+    specular: 0.5,
+    f0: 0.04,
     notes: [
       "Useful for bright interior wall materials.",
       "Keep it matte unless you are authoring a coated surface.",
@@ -57,25 +63,25 @@ const MATERIALS = [
     ],
     engines: {
       generic: {
-        "Base Color": "0.60-0.80 off-white",
+        "Base Color": "Use the suggested sRGB/Linear range",
         "Metallic": "0.0",
         "Roughness": "0.65-0.85",
         "Specular": "0.5"
       },
       blender: {
-        "Base Color": "0.60-0.80 off-white",
+        "Base Color": "Use the suggested sRGB/Linear range",
         "Metallic": "0.0",
         "Roughness": "0.65-0.85",
         "Specular": "0.5"
       },
       unreal: {
-        "Base Color": "0.60-0.80 off-white",
+        "Base Color": "Use the suggested sRGB/Linear range",
         "Metallic": "0.0",
         "Roughness": "0.65-0.85",
-        "Specular": "default"
+        "Specular": "Default"
       },
       unity: {
-        "Base Color": "0.60-0.80 off-white",
+        "Base Color": "Use the suggested sRGB/Linear range",
         "Metallic": "0.0",
         "Smoothness": "0.15-0.35"
       }
@@ -85,12 +91,15 @@ const MATERIALS = [
     id: "wood_light",
     name: "Wood (Light)",
     description: "Clean unfinished light wood without varnish or coating.",
-    reflectance: "35-50%",
-    albedo: "0.45-0.65",
-    roughness: "0.45-0.70",
-    metallic: "0.0",
-    specular: "0.5",
-    f0: "~0.04",
+    reflectance: { min: 0.35, max: 0.50 },
+    albedo: {
+      min: [0.45, 0.36, 0.24],
+      max: [0.65, 0.54, 0.38]
+    },
+    roughness: { min: 0.45, max: 0.70 },
+    metallic: 0.0,
+    specular: 0.5,
+    f0: 0.04,
     notes: [
       "Good for raw pale timber.",
       "Grain detail belongs mostly in albedo and normal maps.",
@@ -98,25 +107,25 @@ const MATERIALS = [
     ],
     engines: {
       generic: {
-        "Base Color": "0.45-0.65 warm light brown",
+        "Base Color": "Use the suggested sRGB/Linear range",
         "Metallic": "0.0",
         "Roughness": "0.45-0.70",
         "Specular": "0.5"
       },
       blender: {
-        "Base Color": "0.45-0.65 warm light brown",
+        "Base Color": "Use the suggested sRGB/Linear range",
         "Metallic": "0.0",
         "Roughness": "0.45-0.70",
         "Specular": "0.5"
       },
       unreal: {
-        "Base Color": "0.45-0.65 warm light brown",
+        "Base Color": "Use the suggested sRGB/Linear range",
         "Metallic": "0.0",
         "Roughness": "0.45-0.70",
-        "Specular": "default"
+        "Specular": "Default"
       },
       unity: {
-        "Base Color": "0.45-0.65 warm light brown",
+        "Base Color": "Use the suggested sRGB/Linear range",
         "Metallic": "0.0",
         "Smoothness": "0.30-0.55"
       }
@@ -126,12 +135,15 @@ const MATERIALS = [
     id: "rubber",
     name: "Rubber",
     description: "Clean, dry, uncoated standard rubber surface.",
-    reflectance: "5-10%",
-    albedo: "0.08-0.18",
-    roughness: "0.70-0.90",
-    metallic: "0.0",
-    specular: "0.35-0.5",
-    f0: "~0.03",
+    reflectance: { min: 0.05, max: 0.10 },
+    albedo: {
+      min: [0.08, 0.08, 0.08],
+      max: [0.18, 0.18, 0.18]
+    },
+    roughness: { min: 0.70, max: 0.90 },
+    metallic: 0.0,
+    specular: 0.4,
+    f0: 0.03,
     notes: [
       "Rubber is usually dark and quite rough.",
       "Do not push metallic above zero.",
@@ -139,25 +151,25 @@ const MATERIALS = [
     ],
     engines: {
       generic: {
-        "Base Color": "0.08-0.18 dark grey",
+        "Base Color": "Use the suggested sRGB/Linear range",
         "Metallic": "0.0",
         "Roughness": "0.70-0.90",
-        "Specular": "0.35-0.5"
+        "Specular": "0.4"
       },
       blender: {
-        "Base Color": "0.08-0.18 dark grey",
+        "Base Color": "Use the suggested sRGB/Linear range",
         "Metallic": "0.0",
         "Roughness": "0.70-0.90",
-        "Specular": "0.35-0.5"
+        "Specular": "0.4"
       },
       unreal: {
-        "Base Color": "0.08-0.18 dark grey",
+        "Base Color": "Use the suggested sRGB/Linear range",
         "Metallic": "0.0",
         "Roughness": "0.70-0.90",
-        "Specular": "default-low"
+        "Specular": "Default-low"
       },
       unity: {
-        "Base Color": "0.08-0.18 dark grey",
+        "Base Color": "Use the suggested sRGB/Linear range",
         "Metallic": "0.0",
         "Smoothness": "0.10-0.30"
       }
@@ -167,38 +179,41 @@ const MATERIALS = [
     id: "aluminium",
     name: "Aluminium",
     description: "Clean bare aluminium in a standard untreated state.",
-    reflectance: "80-90%",
-    albedo: "0.70-0.85",
-    roughness: "0.10-0.30",
-    metallic: "1.0",
-    specular: "metal workflow",
-    f0: "metal-specific",
+    reflectance: { min: 0.80, max: 0.90 },
+    albedo: {
+      min: [0.70, 0.70, 0.70],
+      max: [0.85, 0.85, 0.85]
+    },
+    roughness: { min: 0.10, max: 0.30 },
+    metallic: 1.0,
+    specular: null,
+    f0: null,
     notes: [
-      "For metal workflow, base colour represents reflective tint.",
+      "For metallic workflow, base colour represents reflective tint.",
       "Use metallic = 1.0.",
       "Visual variation mainly comes from roughness."
     ],
     engines: {
       generic: {
-        "Base Color": "0.70-0.85 metallic grey",
+        "Base Color": "Use the suggested sRGB/Linear range",
         "Metallic": "1.0",
         "Roughness": "0.10-0.30",
-        "Specular": "not usually adjusted"
+        "Specular": "Not usually adjusted"
       },
       blender: {
-        "Base Color": "0.70-0.85 metallic grey",
+        "Base Color": "Use the suggested sRGB/Linear range",
         "Metallic": "1.0",
         "Roughness": "0.10-0.30",
-        "Specular": "leave default"
+        "Specular": "Leave default"
       },
       unreal: {
-        "Base Color": "0.70-0.85 metallic grey",
+        "Base Color": "Use the suggested sRGB/Linear range",
         "Metallic": "1.0",
         "Roughness": "0.10-0.30",
-        "Specular": "default"
+        "Specular": "Default"
       },
       unity: {
-        "Base Color": "0.70-0.85 metallic grey",
+        "Base Color": "Use the suggested sRGB/Linear range",
         "Metallic": "1.0",
         "Smoothness": "0.70-0.90"
       }
