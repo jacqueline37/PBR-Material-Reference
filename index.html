@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PBR Material Reference</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <main class="wrap">
@@ -12,8 +12,8 @@
       <p class="eyebrow">PBR Material Reference</p>
       <h1>Clean material starting values for PBR workflows</h1>
       <p class="lead">
-        Select a material to get practical starting ranges for albedo, roughness,
-        metallic, specular, and reflectance.
+        Select a material to get practical starting ranges for reflectance, albedo,
+        roughness, metallic, specular, and engine presets.
       </p>
     </header>
 
@@ -44,25 +44,49 @@
             <span class="label">Reflectance</span>
             <strong id="reflectanceValue">-</strong>
           </div>
+
           <div class="stat">
-            <span class="label">Albedo</span>
-            <strong id="albedoValue">-</strong>
+            <span class="label">Albedo (Linear)</span>
+            <strong id="albedoLinearValue">-</strong>
           </div>
+
+          <div class="stat">
+            <span class="label">Albedo (sRGB)</span>
+            <strong id="albedoSrgbValue">-</strong>
+          </div>
+
           <div class="stat">
             <span class="label">Roughness</span>
             <strong id="roughnessValue">-</strong>
           </div>
+
           <div class="stat">
             <span class="label">Metallic</span>
             <strong id="metallicValue">-</strong>
           </div>
+
           <div class="stat">
-            <span class="label">Specular</span>
+            <span class="label">Specular / F0</span>
             <strong id="specularValue">-</strong>
           </div>
-          <div class="stat">
-            <span class="label">F0</span>
-            <strong id="f0Value">-</strong>
+        </div>
+
+        <div class="albedo-preview-wrap">
+          <div class="albedo-preview-label">Albedo Preview</div>
+          <div id="albedoPreview" class="albedo-preview"></div>
+
+          <div class="swatch-info">
+            <div class="swatch">
+              <small>Minimum</small>
+              <div id="swatchMin" class="swatch-chip"></div>
+              <div id="swatchMinText">-</div>
+            </div>
+
+            <div class="swatch">
+              <small>Maximum</small>
+              <div id="swatchMax" class="swatch-chip"></div>
+              <div id="swatchMaxText">-</div>
+            </div>
           </div>
         </div>
       </article>
@@ -79,7 +103,7 @@
     </section>
   </main>
 
-  <script src="material.js"></script>
+  <script src="materials.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
