@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PBR Material Reference</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="wrap">
+    <header class="hero">
+      <p class="eyebrow">PBR Material Reference</p>
+      <h1>Clean material starting values for PBR workflows</h1>
+      <p class="lead">
+        Select a material to get practical starting ranges for albedo, roughness,
+        metallic, specular, and reflectance.
+      </p>
+    </header>
+
+    <section class="panel controls">
+      <div class="field">
+        <label for="materialSelect">Material</label>
+        <select id="materialSelect"></select>
+      </div>
+
+      <div class="field">
+        <label for="engineSelect">Preset</label>
+        <select id="engineSelect">
+          <option value="generic">Generic PBR</option>
+          <option value="blender">Blender Principled</option>
+          <option value="unreal">Unreal Engine</option>
+          <option value="unity">Unity / HDRP</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="panel result-card">
+        <h2 id="resultName">Material</h2>
+        <p id="resultDesc" class="muted"></p>
+
+        <div class="stats">
+          <div class="stat">
+            <span class="label">Reflectance</span>
+            <strong id="reflectanceValue">-</strong>
+          </div>
+          <div class="stat">
+            <span class="label">Albedo</span>
+            <strong id="albedoValue">-</strong>
+          </div>
+          <div class="stat">
+            <span class="label">Roughness</span>
+            <strong id="roughnessValue">-</strong>
+          </div>
+          <div class="stat">
+            <span class="label">Metallic</span>
+            <strong id="metallicValue">-</strong>
+          </div>
+          <div class="stat">
+            <span class="label">Specular</span>
+            <strong id="specularValue">-</strong>
+          </div>
+          <div class="stat">
+            <span class="label">F0</span>
+            <strong id="f0Value">-</strong>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <h2>Notes</h2>
+        <ul id="notesList" class="notes"></ul>
+      </article>
+
+      <article class="panel">
+        <h2>Engine Mapping</h2>
+        <div id="engineOutput" class="engine-output"></div>
+      </article>
+    </section>
+  </main>
+
+  <script src="materials.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
