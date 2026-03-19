@@ -12,6 +12,7 @@ const specularValue = document.getElementById("specularValue");
 
 const notesList = document.getElementById("notesList");
 const engineOutput = document.getElementById("engineOutput");
+const engineTitle = document.getElementById("engineTitle");
 
 const albedoPreview = document.getElementById("albedoPreview");
 const swatchMin = document.getElementById("swatchMin");
@@ -113,6 +114,7 @@ function renderMaterial() {
   const material = getSelectedMaterial();
   const engine = engineSelect.value;
   const mapping = material.engines[engine];
+  const engineLabel = engineSelect.options[engineSelect.selectedIndex].text;
 
   resultName.textContent = material.name;
   resultDesc.textContent = material.description;
@@ -136,6 +138,8 @@ function renderMaterial() {
   } else {
     specularValue.textContent = "Metal workflow";
   }
+
+  engineTitle.textContent = `Engine Mapping - ${engineLabel}`;
 
   renderNotes(material.notes);
   renderEngineMapping(mapping);
