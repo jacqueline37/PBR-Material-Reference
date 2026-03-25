@@ -1,4 +1,4 @@
-const MATERIALS = [
+window.MATERIALS = [
 
   // ===== existing =====
 
