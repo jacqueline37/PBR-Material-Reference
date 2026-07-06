@@ -20,6 +20,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const swatchMax = document.getElementById("swatchMax");
   const swatchMinText = document.getElementById("swatchMinText");
   const swatchMaxText = document.getElementById("swatchMaxText");
+  const copySwatchMin = document.getElementById("copySwatchMin");
+  const copySwatchMax = document.getElementById("copySwatchMax");
+
+  const themeToggle = document.getElementById("themeToggle");
 
   if (
     !materialSelect || !engineSelect || !resultName || !resultDesc ||
@@ -27,7 +31,8 @@ document.addEventListener("DOMContentLoaded", () => {
     !roughnessValue || !metallicValue || !specularValue ||
     !notesList || !engineOutput || !engineTitle ||
     !albedoPreview || !swatchMin || !swatchMax ||
-    !swatchMinText || !swatchMaxText
+    !swatchMinText || !swatchMaxText ||
+    !copySwatchMin || !copySwatchMax || !themeToggle
   ) {
     console.error("Required DOM elements are missing.");
     return;
@@ -40,6 +45,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
+  }
+
+  function copyToClipboard(text, button) {
+    if (!navigator.clipboard) return;
+
+    navigator.clipboard.writeText(text).then(() => {
+      const original = button.textContent;
+      button.textContent = "Copied";
+      button.classList.add("copied");
+      setTimeout(() => {
+        button.textContent = original;
+        button.classList.remove("copied");
+      }, 1200);
+    }).catch(() => {});
+  }
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    themeToggle.textContent = theme === "light" ? "Light" : "Dark";
+    themeToggle.setAttribute("aria-pressed", theme === "light" ? "true" : "false");
+  }
+
+  function getInitialTheme() {
+    const saved = localStorage.getItem("pbr-theme");
+    if (saved === "light" || saved === "dark") return saved;
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches
+      ? "light"
+      : "dark";
   }
 
   function linearToSrgbChannel(linear) {
@@ -98,13 +131,37 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  const NON_COPYABLE_KEYS = new Set(["Workflow Note", "Derived From"]);
+
   function renderEngineRows(rows) {
     engineOutput.innerHTML = "";
 
     rows.forEach(([key, value]) => {
       const row = document.createElement("div");
       row.className = "engine-row";
-      row.innerHTML = `<span>${key}</span><strong>${value}</strong>`;
+
+      const keySpan = document.createElement("span");
+      keySpan.textContent = key;
+
+      const valueWrap = document.createElement("div");
+      valueWrap.className = "engine-value";
+
+      const strong = document.createElement("strong");
+      strong.textContent = value;
+      valueWrap.appendChild(strong);
+
+      if (!NON_COPYABLE_KEYS.has(key)) {
+        const copyBtn = document.createElement("button");
+        copyBtn.type = "button";
+        copyBtn.className = "copy-btn";
+        copyBtn.textContent = "Copy";
+        copyBtn.setAttribute("aria-label", `Copy ${key}`);
+        copyBtn.addEventListener("click", () => copyToClipboard(value, copyBtn));
+        valueWrap.appendChild(copyBtn);
+      }
+
+      row.appendChild(keySpan);
+      row.appendChild(valueWrap);
       engineOutput.appendChild(row);
     });
   }
@@ -126,6 +183,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     swatchMinText.textContent = `${minHex} / linear ${minLinear.map(formatNumber).join(", ")}`;
     swatchMaxText.textContent = `${maxHex} / linear ${maxLinear.map(formatNumber).join(", ")}`;
+
+    copySwatchMin.dataset.hex = minHex;
+    copySwatchMax.dataset.hex = maxHex;
   }
 
   function buildPresetRows(material, engine) {
@@ -215,7 +275,17 @@ document.addEventListener("DOMContentLoaded", () => {
   populateMaterialSelect();
   materialSelect.value = MATERIALS[0].id;
   renderMaterial();
+  applyTheme(getInitialTheme());
 
   materialSelect.addEventListener("change", renderMaterial);
   engineSelect.addEventListener("change", renderMaterial);
+
+  copySwatchMin.addEventListener("click", () => copyToClipboard(copySwatchMin.dataset.hex, copySwatchMin));
+  copySwatchMax.addEventListener("click", () => copyToClipboard(copySwatchMax.dataset.hex, copySwatchMax));
+
+  themeToggle.addEventListener("click", () => {
+    const next = document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
+    localStorage.setItem("pbr-theme", next);
+    applyTheme(next);
+  });
 });

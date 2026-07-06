@@ -10,6 +10,17 @@
   --radius: 20px;
 }
 
+:root[data-theme="light"] {
+  --bg: #f4f6fb;
+  --panel: #ffffff;
+  --panel-2: #eef1f8;
+  --text: #1b2030;
+  --muted: #565f76;
+  --line: #d8dded;
+  --accent: #3f66d1;
+  --shadow: 0 12px 30px rgba(31, 41, 71, 0.08);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -41,12 +52,36 @@ body {
   margin-bottom: 24px;
 }
 
+.hero-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .eyebrow {
   margin: 0 0 8px;
   color: var(--accent);
   font-size: 0.9rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.theme-toggle {
+  flex: none;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 8px 14px;
+  font: inherit;
+  font-size: 0.86rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent);
 }
 
 h1 {
@@ -100,6 +135,7 @@ select {
 .grid {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
+  align-items: start;
   gap: 20px;
 }
 
@@ -159,6 +195,7 @@ h2 {
 .engine-row {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 16px;
   padding: 10px 12px;
   border: 1px solid var(--line);
@@ -168,6 +205,35 @@ h2 {
 
 .engine-row span:first-child {
   color: var(--muted);
+}
+
+.engine-value {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.copy-btn {
+  flex: none;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  color: var(--muted);
+  border-radius: 8px;
+  padding: 4px 9px;
+  font-size: 0.78rem;
+  font: inherit;
+  cursor: pointer;
+  line-height: 1.6;
+}
+
+.copy-btn:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+.copy-btn.copied {
+  color: var(--accent);
+  border-color: var(--accent);
 }
 
 .albedo-preview-wrap {
@@ -216,6 +282,13 @@ h2 {
 .swatch small {
   color: var(--muted);
   font-size: 0.78rem;
+}
+
+.swatch-text-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
 }
 
 .swatch-chip {

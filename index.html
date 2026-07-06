@@ -47,7 +47,10 @@
 <body>
   <main class="wrap">
     <header class="hero">
-      <p class="eyebrow">PBR Material Reference</p>
+      <div class="hero-top">
+        <p class="eyebrow">PBR Material Reference</p>
+        <button id="themeToggle" type="button" class="theme-toggle" aria-pressed="false">Dark</button>
+      </div>
       <h1>PBR Material Reference Values for Albedo, Roughness, Metallic, Specular</h1>
       <p class="lead">
         Select a material to get practical starting ranges for reflectance, albedo,
@@ -131,13 +134,19 @@
             <div class="swatch">
               <small>Minimum</small>
               <div id="swatchMin" class="swatch-chip"></div>
-              <div id="swatchMinText">-</div>
+              <div class="swatch-text-row">
+                <span id="swatchMinText">-</span>
+                <button id="copySwatchMin" type="button" class="copy-btn" aria-label="Copy minimum albedo hex code">Copy</button>
+              </div>
             </div>
 
             <div class="swatch">
               <small>Maximum</small>
               <div id="swatchMax" class="swatch-chip"></div>
-              <div id="swatchMaxText">-</div>
+              <div class="swatch-text-row">
+                <span id="swatchMaxText">-</span>
+                <button id="copySwatchMax" type="button" class="copy-btn" aria-label="Copy maximum albedo hex code">Copy</button>
+              </div>
             </div>
           </div>
         </div>
