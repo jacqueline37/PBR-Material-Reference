@@ -67,6 +67,15 @@ but practical values for real-time rendering.
 
 ---
 
+## How to use
+
+1. Open the live tool.
+2. Pick a material from the dropdown (concrete, wood, metal, glass, skin, etc.).
+3. Pick the engine you're working in (Generic, Blender, Unreal, or Unity/HDRP).
+4. Read off the reflectance, albedo, roughness, metallic, and specular/F0 values, and copy any value straight into your shader or material editor.
+
+---
+
 ## Supported materials
 
 - Concrete
@@ -86,27 +95,6 @@ but practical values for real-time rendering.
 - Skin
 
 More materials may be added later.
-
----
-
-## Tech
-
-This tool is made with:
-
-- HTML
-- CSS
-- JavaScript
-- GitHub Pages
-
-No framework is used.
-
-Data is stored in:
-
-materials.js
-
-Logic is in:
-
-app.js
 
 ---
 
