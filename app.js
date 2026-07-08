@@ -188,6 +188,54 @@ document.addEventListener("DOMContentLoaded", () => {
     copySwatchMax.dataset.hex = maxHex;
   }
 
+  function buildSpecialRows(material, engine) {
+    if (!material.special) return [];
+
+    const rows = [];
+
+    if (material.special === "transmissive") {
+      const ior = (1 + Math.sqrt(material.f0)) / (1 - Math.sqrt(material.f0));
+
+      if (engine === "blender") {
+        rows.push(["Transmission Weight", "1.00"]);
+        rows.push(["IOR", formatNumber(ior)]);
+      } else if (engine === "unreal") {
+        rows.push(["Blend Mode", "Translucent (enables Refraction input)"]);
+        rows.push(["IOR", formatNumber(ior)]);
+      } else if (engine === "unity") {
+        rows.push(["Material Type", "Translucent (HDRP Lit) or a custom transparent shader"]);
+        rows.push(["IOR", formatNumber(ior)]);
+      } else if (engine === "arnold") {
+        rows.push(["Transmission Weight", "1.00"]);
+      } else {
+        rows.push(["IOR", formatNumber(ior)]);
+        rows.push(["Transmission", "Enable transmission/refraction for this material"]);
+      }
+    } else if (material.special === "sss") {
+      if (engine === "blender" || engine === "arnold") {
+        rows.push(["Subsurface Weight", "0.20-0.50 (typical)"]);
+      } else if (engine === "unreal") {
+        rows.push(["Shading Model", "Subsurface / Subsurface Profile"]);
+      } else if (engine === "unity") {
+        rows.push(["Material Type", "Subsurface Scattering (HDRP Lit)"]);
+      } else {
+        rows.push(["Subsurface", "Enable subsurface scattering (see notes)"]);
+      }
+    } else if (material.special === "cloth") {
+      if (engine === "blender" || engine === "arnold") {
+        rows.push(["Sheen Weight", "0.30-0.60 (typical)"]);
+      } else if (engine === "unreal") {
+        rows.push(["Shading Model", "Cloth (adds Fuzz Color + Cloth Amount)"]);
+      } else if (engine === "unity") {
+        rows.push(["Shader", "HDRP Fabric shader (Cotton/Wool) recommended"]);
+      } else {
+        rows.push(["Sheen", "Consider a grazing-angle sheen term (typical weight 0.30-0.60)"]);
+      }
+    }
+
+    return rows;
+  }
+
   function buildPresetRows(material, engine) {
     const rows = [];
     const minHex = linearRgbToHex(material.albedo.min);
@@ -198,7 +246,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "Base Color (Linear)",
       `${material.albedo.min.map(formatNumber).join(", ")} - ${material.albedo.max.map(formatNumber).join(", ")}`
     ]);
-    rows.push(["Metallic", formatNumber(material.metallic)]);
+    rows.push([engine === "arnold" ? "Metalness" : "Metallic", formatNumber(material.metallic)]);
 
     if (engine === "unity") {
       const smoothnessMin = 1 - material.roughness.max;
@@ -207,6 +255,8 @@ document.addEventListener("DOMContentLoaded", () => {
       rows.push(["Smoothness", formatRange(smoothnessMin, smoothnessMax)]);
       rows.push(["Derived From", `1 - Roughness (${formatRange(material.roughness.min, material.roughness.max)})`]);
       rows.push(["Workflow Note", "Unity/HDRP commonly uses Smoothness rather than Roughness"]);
+    } else if (engine === "arnold") {
+      rows.push(["Specular Roughness", formatRange(material.roughness.min, material.roughness.max)]);
     } else {
       rows.push(["Roughness", formatRange(material.roughness.min, material.roughness.max)]);
     }
@@ -215,17 +265,38 @@ document.addEventListener("DOMContentLoaded", () => {
       rows.push(["Specular", "Metal workflow"]);
     } else {
       if (engine === "unreal") {
-        rows.push(["Specular", "Usually leave at default"]);
+        const isDefault = Math.abs(material.specular - 0.5) < 0.005;
+        rows.push([
+          "Specular",
+          isDefault
+            ? "0.50 (default)"
+            : `${formatNumber(material.specular)} (deviates from default 0.5)`
+        ]);
       } else if (engine === "unity") {
-        rows.push(["Specular", "Usually handled by shader/workflow"]);
+        const isDefaultF0 = Math.abs(material.f0 - 0.04) < 0.005;
+        rows.push([
+          "Specular",
+          isDefaultF0
+            ? "Handled automatically (assumes ~0.04 F0)"
+            : `Metallic workflow assumes ~0.04 F0; use Specular Color workflow for F0 ≈ ${formatNumber(material.f0)}`
+        ]);
+      } else if (engine === "arnold") {
+        rows.push(["Specular Weight", "1.0 (default)"]);
       } else {
         rows.push(["Specular", formatNumber(material.specular)]);
       }
 
       if (material.f0 !== null) {
-        rows.push(["F0", formatNumber(material.f0)]);
+        if (engine === "arnold") {
+          const ior = (1 + Math.sqrt(material.f0)) / (1 - Math.sqrt(material.f0));
+          rows.push(["Specular IOR", formatNumber(ior)]);
+        } else {
+          rows.push(["F0", formatNumber(material.f0)]);
+        }
       }
     }
+
+    rows.push(...buildSpecialRows(material, engine));
 
     if (engine === "blender") {
       rows.push(["Workflow Note", "Blender Principled uses Roughness directly"]);
@@ -233,6 +304,8 @@ document.addEventListener("DOMContentLoaded", () => {
       rows.push(["Workflow Note", "Unreal uses Roughness directly"]);
     } else if (engine === "generic") {
       rows.push(["Workflow Note", "Generic metal/roughness workflow"]);
+    } else if (engine === "arnold") {
+      rows.push(["Workflow Note", "Arnold standard_surface uses Specular Roughness and Metalness directly"]);
     }
 
     return rows;

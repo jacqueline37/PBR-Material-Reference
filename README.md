@@ -23,7 +23,7 @@ Values are based on measured reflectance ranges for clean, uncoated, unweathered
 ## Features
 
 - Presets for 50+ common real-world materials (concrete, wood, metal, plastic, glass, fabric, skin, and more)
-- Engine-specific output for Generic PBR, Blender Principled, Unreal Engine, and Unity/HDRP
+- Engine-specific output for Generic PBR, Blender Principled, Unreal Engine, Unity/HDRP, and Arnold (standard_surface)
 - Linear albedo + sRGB color preview, with one-click copy of the hex codes
 - Light / dark theme toggle
 - Notes on how to treat each material (e.g. use a transmission shader for glass, SSS for skin)
@@ -40,7 +40,7 @@ so setting up a material is easier and more consistent — without aiming for pe
 
 1. Open the [live tool](https://jacqueline37.github.io/PBR-Material-Reference/).
 2. Pick a material from the dropdown (concrete, wood, metal, glass, skin, etc.).
-3. Pick the engine or renderer you're working in (Generic, Blender, Unreal, or Unity/HDRP).
+3. Pick the engine or renderer you're working in (Generic, Blender, Unreal, Unity/HDRP, or Arnold).
 4. Read off the reflectance, albedo, roughness, metallic, and specular/F0 values, and copy any value straight into your shader or material editor.
 
 ## Supported materials
@@ -51,7 +51,7 @@ More materials may be added over time.
 
 ## Who it's for
 
-Technical artists, lookdev/shader work, and anyone doing material calibration or lighting/shading reference in Unreal Engine, Unity/HDRP, Blender, or a generic PBR pipeline.
+Technical artists, lookdev/shader work, and anyone doing material calibration or lighting/shading reference in Unreal Engine, Unity/HDRP, Blender, Arnold, or a generic PBR pipeline.
 
 ## License
 
