@@ -1,8 +1,16 @@
-# PBR-Material-Reference
+# PBR Material Reference
 
-PBR Material Reference is a small web tool for CG, rendering, and game engine workflows.
+![PBR Material Reference](og-image.png)
 
-It provides realistic starting values for:
+A small web tool that gives realistic starting values for CG, rendering, and game engine material setup — no more guessing what "concrete" or "brushed aluminium" should look like in your shader graph.
+
+**[Open the live tool →](https://jacqueline37.github.io/PBR-Material-Reference/)**
+
+---
+
+## What it gives you
+
+For each material, the tool provides:
 
 - Albedo (linear / sRGB)
 - Reflectance
@@ -10,106 +18,41 @@ It provides realistic starting values for:
 - Metallic
 - Specular / F0
 
-for common real-world materials such as concrete, wood, metal, plastic, glass, fabric, skin, snow, etc.
-
-This tool is intended for:
-
-- Unreal Engine
-- Unity / HDRP
-- Blender
-- Generic PBR workflows
-- Physically Based Rendering
-- Lighting / shading reference
-- Technical artists
-- Lookdev / shader setup
-- Material calibration
-
-Live tool:
-
-https://jacqueline37.github.io/PBR-Material-Reference/
-
----
+Values are based on measured reflectance ranges for clean, uncoated, unweathered materials — no paint, dirt, or aging — so they work well as a neutral starting point before you add wear and detail.
 
 ## Features
 
-- Material presets based on measured reflectance ranges
-- Linear albedo + sRGB preview
-- Roughness / Metallic / Specular reference
-- Engine presets (Generic / Blender / Unreal / Unity)
-- Color preview for albedo range
-- Notes for each material
-
-All values assume:
-
-- clean material
-- no paint
-- no aging
-- no dirt
-- no weathering
-- no coating
-
-This makes the values suitable as base PBR references.
-
----
+- Presets for 15 common real-world materials (concrete, wood, metal, plastic, glass, fabric, skin, and more)
+- Engine-specific output for Generic PBR, Blender Principled, Unreal Engine, and Unity/HDRP
+- Linear albedo + sRGB color preview, with one-click copy of the hex codes
+- Light / dark theme toggle
+- Notes on how to treat each material (e.g. use a transmission shader for glass, SSS for skin)
 
 ## Why this exists
 
-Many PBR guides show only grayscale values or only reflectance.
+Many PBR guides show only grayscale values or only reflectance. This tool connects the full chain:
 
-This tool connects:
+**reflectance → albedo → roughness → metallic → specular**
 
-reflectance → albedo → roughness → metallic → specular
-
-so material setup becomes easier and more consistent.
-
-The goal is not perfect physical accuracy,
-but practical values for real-time rendering.
-
----
+so setting up a material is easier and more consistent — without aiming for perfect physical accuracy, just practical values for real-time rendering.
 
 ## How to use
 
-1. Open the live tool.
+1. Open the [live tool](https://jacqueline37.github.io/PBR-Material-Reference/).
 2. Pick a material from the dropdown (concrete, wood, metal, glass, skin, etc.).
-3. Pick the engine you're working in (Generic, Blender, Unreal, or Unity/HDRP).
+3. Pick the engine or renderer you're working in (Generic, Blender, Unreal, or Unity/HDRP).
 4. Read off the reflectance, albedo, roughness, metallic, and specular/F0 values, and copy any value straight into your shader or material editor.
-
----
 
 ## Supported materials
 
-- Concrete
-- Plaster
-- Wood
-- Rubber
-- Aluminium
-- Steel
-- Copper
-- Brick
-- Ceramic
-- Plastic
-- Glass
-- Fabric
-- Asphalt
-- Snow
-- Skin
+Concrete · Plaster · Wood · Rubber · Aluminium · Steel · Copper · Brick · Ceramic · Plastic · Glass · Fabric · Asphalt · Snow · Skin
 
-More materials may be added later.
+More materials may be added over time.
 
----
+## Who it's for
+
+Technical artists, lookdev/shader work, and anyone doing material calibration or lighting/shading reference in Unreal Engine, Unity/HDRP, Blender, or a generic PBR pipeline.
 
 ## License
 
-MIT
-
-You can use this freely for:
-
-- games
-- tools
-- education
-- rendering
-- shaders
-- documentation
-- tutorials
-
-No attribution required, but appreciated.
+MIT — free to use for games, tools, education, rendering, shaders, documentation, and tutorials. No attribution required, but appreciated.
