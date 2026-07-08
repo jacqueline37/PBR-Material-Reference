@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const copySwatchMin = document.getElementById("copySwatchMin");
   const copySwatchMax = document.getElementById("copySwatchMax");
 
-  const themeToggle = document.getElementById("themeToggle");
+  const langToggle = document.getElementById("langToggle");
 
   if (
     !materialSelect || !engineSelect || !resultName || !resultDesc ||
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     !notesList || !engineOutput || !engineTitle ||
     !albedoPreview || !swatchMin || !swatchMax ||
     !swatchMinText || !swatchMaxText ||
-    !copySwatchMin || !copySwatchMax || !themeToggle
+    !copySwatchMin || !copySwatchMax || !langToggle
   ) {
     console.error("Required DOM elements are missing.");
     return;
@@ -41,6 +41,71 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!window.MATERIALS || !Array.isArray(window.MATERIALS) || window.MATERIALS.length === 0) {
     console.error("MATERIALS is missing or empty.");
     return;
+  }
+
+  const TRANSLATIONS = {
+    en: {
+      eyebrow: "PBR Material Reference",
+      h1: "PBR Material Reference Values for Albedo, Roughness, Metallic, Specular",
+      lead: "Select a material to get practical starting ranges for reflectance, albedo, roughness, metallic, specular, and engine-specific output.",
+      aboutTitle: "About PBR Material Reference",
+      aboutP1: "This tool provides PBR material reference values for albedo, roughness, metallic, specular and reflectance.",
+      aboutP2: "It can be used for Unreal Engine, Unity, Blender, and generic PBR workflows.",
+      aboutP3: "Supported materials include concrete, wood, metal, plastic, glass, fabric, brick, asphalt, snow, skin, gold, silver, marble, granite, leather, water, ice and more than 50 materials in total.",
+      materialLabel: "Material",
+      presetLabel: "Preset",
+      materialReferenceTitle: "Material Reference",
+      reflectance: "Reflectance",
+      albedoLinear: "Albedo (Linear)",
+      albedoSrgb: "Albedo (sRGB)",
+      roughness: "Roughness",
+      metallic: "Metallic",
+      specularF0: "Specular / F0",
+      albedoPreview: "Albedo Preview",
+      minimum: "Minimum",
+      maximum: "Maximum",
+      copy: "Copy",
+      copied: "Copied",
+      copyMinAria: "Copy minimum albedo hex code",
+      copyMaxAria: "Copy maximum albedo hex code",
+      notesTitle: "Notes",
+      presetOutput: "Preset Output",
+      metalWorkflow: "Metal workflow"
+    },
+    ja: {
+      eyebrow: "PBR マテリアル リファレンス",
+      h1: "PBRマテリアルの基準値 — Albedo・Roughness・Metallic・Specular",
+      lead: "マテリアルを選択すると、反射率・アルベド・ラフネス・メタリック・スペキュラーの実用的な目安値と、各エンジン向けの出力を確認できます。",
+      aboutTitle: "このツールについて",
+      aboutP1: "このツールは、Albedo・Roughness・Metallic・Specular・ReflectanceのPBRマテリアル基準値を提供します。",
+      aboutP2: "Unreal Engine、Unity、Blender、汎用PBRワークフローに対応しています。",
+      aboutP3: "対応マテリアルはコンクリート、木材、金属、プラスチック、ガラス、布、レンガ、アスファルト、雪、肌、金、銀、大理石、花崗岩、革、水、氷など、全50種類以上です。",
+      materialLabel: "マテリアル",
+      presetLabel: "プリセット",
+      materialReferenceTitle: "マテリアル基準値",
+      reflectance: "反射率(Reflectance)",
+      albedoLinear: "Albedo(リニア)",
+      albedoSrgb: "Albedo(sRGB)",
+      roughness: "Roughness(粗さ)",
+      metallic: "Metallic(金属度)",
+      specularF0: "Specular / F0",
+      albedoPreview: "Albedoプレビュー",
+      minimum: "最小",
+      maximum: "最大",
+      copy: "コピー",
+      copied: "コピー済み",
+      copyMinAria: "最小Albedoのhexコードをコピー",
+      copyMaxAria: "最大Albedoのhexコードをコピー",
+      notesTitle: "補足",
+      presetOutput: "プリセット出力",
+      metalWorkflow: "金属ワークフロー(Metal workflow)"
+    }
+  };
+
+  let currentLang = "en";
+
+  function t() {
+    return TRANSLATIONS[currentLang];
   }
 
   function clamp(value, min, max) {
@@ -52,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     navigator.clipboard.writeText(text).then(() => {
       const original = button.textContent;
-      button.textContent = "Copied";
+      button.textContent = t().copied;
       button.classList.add("copied");
       setTimeout(() => {
         button.textContent = original;
@@ -61,18 +126,34 @@ document.addEventListener("DOMContentLoaded", () => {
     }).catch(() => {});
   }
 
-  function applyTheme(theme) {
-    document.documentElement.setAttribute("data-theme", theme);
-    themeToggle.textContent = theme === "light" ? "Light" : "Dark";
-    themeToggle.setAttribute("aria-pressed", theme === "light" ? "true" : "false");
+  function applyLang(lang) {
+    currentLang = lang === "ja" ? "ja" : "en";
+    const dict = t();
+
+    document.documentElement.lang = currentLang;
+
+    document.querySelectorAll("[data-i18n]").forEach((el) => {
+      const key = el.getAttribute("data-i18n");
+      if (dict[key] !== undefined) el.textContent = dict[key];
+    });
+
+    document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
+      const key = el.getAttribute("data-i18n-aria");
+      if (dict[key] !== undefined) el.setAttribute("aria-label", dict[key]);
+    });
+
+    langToggle.textContent = currentLang === "ja" ? "日本語" : "EN";
+    langToggle.setAttribute("aria-pressed", currentLang === "ja" ? "true" : "false");
+
+    localStorage.setItem("pbr-lang", currentLang);
+
+    renderMaterial();
   }
 
-  function getInitialTheme() {
-    const saved = localStorage.getItem("pbr-theme");
-    if (saved === "light" || saved === "dark") return saved;
-    return window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches
-      ? "light"
-      : "dark";
+  function getInitialLang() {
+    const saved = localStorage.getItem("pbr-lang");
+    if (saved === "en" || saved === "ja") return saved;
+    return navigator.language && navigator.language.toLowerCase().startsWith("ja") ? "ja" : "en";
   }
 
   function linearToSrgbChannel(linear) {
@@ -154,8 +235,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const copyBtn = document.createElement("button");
         copyBtn.type = "button";
         copyBtn.className = "copy-btn";
-        copyBtn.textContent = "Copy";
-        copyBtn.setAttribute("aria-label", `Copy ${key}`);
+        copyBtn.textContent = t().copy;
+        copyBtn.setAttribute("aria-label", currentLang === "ja" ? `${key} をコピー` : `Copy ${key}`);
         copyBtn.addEventListener("click", () => copyToClipboard(value, copyBtn));
         valueWrap.appendChild(copyBtn);
       }
@@ -336,10 +417,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (material.specular !== null && material.f0 !== null) {
       specularValue.textContent = `${formatNumber(material.specular)} / ${formatNumber(material.f0)}`;
     } else {
-      specularValue.textContent = "Metal workflow";
+      specularValue.textContent = t().metalWorkflow;
     }
 
-    engineTitle.textContent = `Preset Output - ${engineLabel}`;
+    engineTitle.textContent = `${t().presetOutput} - ${engineLabel}`;
 
     renderNotes(material.notes);
     renderEngineRows(buildPresetRows(material, engine));
@@ -347,8 +428,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   populateMaterialSelect();
   materialSelect.value = MATERIALS[0].id;
-  renderMaterial();
-  applyTheme(getInitialTheme());
+  applyLang(getInitialLang());
 
   materialSelect.addEventListener("change", renderMaterial);
   engineSelect.addEventListener("change", renderMaterial);
@@ -356,9 +436,7 @@ document.addEventListener("DOMContentLoaded", () => {
   copySwatchMin.addEventListener("click", () => copyToClipboard(copySwatchMin.dataset.hex, copySwatchMin));
   copySwatchMax.addEventListener("click", () => copyToClipboard(copySwatchMax.dataset.hex, copySwatchMax));
 
-  themeToggle.addEventListener("click", () => {
-    const next = document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
-    localStorage.setItem("pbr-theme", next);
-    applyTheme(next);
+  langToggle.addEventListener("click", () => {
+    applyLang(currentLang === "ja" ? "en" : "ja");
   });
 });

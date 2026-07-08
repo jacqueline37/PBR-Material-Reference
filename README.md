@@ -25,7 +25,7 @@ Values are based on measured reflectance ranges for clean, uncoated, unweathered
 - Presets for 50+ common real-world materials (concrete, wood, metal, plastic, glass, fabric, skin, and more)
 - Engine-specific output for Generic PBR, Blender Principled, Unreal Engine, Unity/HDRP, and Arnold (standard_surface)
 - Linear albedo + sRGB color preview, with one-click copy of the hex codes
-- Light / dark theme toggle
+- English / Japanese UI language toggle
 - Notes on how to treat each material (e.g. use a transmission shader for glass, SSS for skin)
 
 ## Why this exists

@@ -10,17 +10,6 @@
   --radius: 20px;
 }
 
-:root[data-theme="light"] {
-  --bg: #f4f6fb;
-  --panel: #ffffff;
-  --panel-2: #eef1f8;
-  --text: #1b2030;
-  --muted: #565f76;
-  --line: #d8dded;
-  --accent: #3f66d1;
-  --shadow: 0 12px 30px rgba(31, 41, 71, 0.08);
-}
-
 * {
   box-sizing: border-box;
 }
@@ -67,7 +56,7 @@ body {
   text-transform: uppercase;
 }
 
-.theme-toggle {
+.lang-toggle {
   flex: none;
   border: 1px solid var(--line);
   background: var(--panel-2);
@@ -80,7 +69,7 @@ body {
   line-height: 1;
 }
 
-.theme-toggle:hover {
+.lang-toggle:hover {
   border-color: var(--accent);
 }
 

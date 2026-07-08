@@ -65,23 +65,23 @@
   <main class="wrap">
     <header class="hero">
       <div class="hero-top">
-        <p class="eyebrow">PBR Material Reference</p>
-        <button id="themeToggle" type="button" class="theme-toggle" aria-pressed="false">Dark</button>
+        <p class="eyebrow" data-i18n="eyebrow">PBR Material Reference</p>
+        <button id="langToggle" type="button" class="lang-toggle" aria-pressed="false">EN</button>
       </div>
-      <h1>PBR Material Reference Values for Albedo, Roughness, Metallic, Specular</h1>
-      <p class="lead">
+      <h1 data-i18n="h1">PBR Material Reference Values for Albedo, Roughness, Metallic, Specular</h1>
+      <p class="lead" data-i18n="lead">
         Select a material to get practical starting ranges for reflectance, albedo,
         roughness, metallic, specular, and engine-specific output.
       </p><br>
-      <h2>About PBR Material Reference</h2>
-      <p>
+      <h2 data-i18n="aboutTitle">About PBR Material Reference</h2>
+      <p data-i18n="aboutP1">
         This tool provides PBR material reference values for albedo, roughness,
         metallic, specular and reflectance.
       </p>
-      <p>
+      <p data-i18n="aboutP2">
         It can be used for Unreal Engine, Unity, Blender, and generic PBR workflows.
       </p>
-      <p>
+      <p data-i18n="aboutP3">
         Supported materials include concrete, wood, metal, plastic, glass, fabric,
         brick, asphalt, snow, skin, gold, silver, marble, granite, leather, water,
         ice and more than 50 materials in total.
@@ -91,12 +91,12 @@
 
     <section class="panel controls">
       <div class="field">
-        <label for="materialSelect">Material</label>
+        <label for="materialSelect" data-i18n="materialLabel">Material</label>
         <select id="materialSelect"></select>
       </div>
 
       <div class="field">
-        <label for="engineSelect">Preset</label>
+        <label for="engineSelect" data-i18n="presetLabel">Preset</label>
         <select id="engineSelect">
           <option value="generic">Generic PBR</option>
           <option value="blender">Blender Principled</option>
@@ -109,62 +109,62 @@
 
     <section class="grid">
       <article class="panel result-card">
-        <h2>Material Reference</h2>
+        <h2 data-i18n="materialReferenceTitle">Material Reference</h2>
         <h3 id="resultName">Material</h3>
         <p id="resultDesc" class="muted"></p>
 
         <div class="stats">
           <div class="stat">
-            <span class="label">Reflectance</span>
+            <span class="label" data-i18n="reflectance">Reflectance</span>
             <strong id="reflectanceValue">-</strong>
           </div>
 
           <div class="stat">
-            <span class="label">Albedo (Linear)</span>
+            <span class="label" data-i18n="albedoLinear">Albedo (Linear)</span>
             <strong id="albedoLinearValue">-</strong>
           </div>
 
           <div class="stat">
-            <span class="label">Albedo (sRGB)</span>
+            <span class="label" data-i18n="albedoSrgb">Albedo (sRGB)</span>
             <strong id="albedoSrgbValue">-</strong>
           </div>
 
           <div class="stat">
-            <span class="label">Roughness</span>
+            <span class="label" data-i18n="roughness">Roughness</span>
             <strong id="roughnessValue">-</strong>
           </div>
 
           <div class="stat">
-            <span class="label">Metallic</span>
+            <span class="label" data-i18n="metallic">Metallic</span>
             <strong id="metallicValue">-</strong>
           </div>
 
           <div class="stat">
-            <span class="label">Specular / F0</span>
+            <span class="label" data-i18n="specularF0">Specular / F0</span>
             <strong id="specularValue">-</strong>
           </div>
         </div>
 
         <div class="albedo-preview-wrap">
-          <div class="albedo-preview-label">Albedo Preview</div>
+          <div class="albedo-preview-label" data-i18n="albedoPreview">Albedo Preview</div>
           <div id="albedoPreview" class="albedo-preview"></div>
 
           <div class="swatch-info">
             <div class="swatch">
-              <small>Minimum</small>
+              <small data-i18n="minimum">Minimum</small>
               <div id="swatchMin" class="swatch-chip"></div>
               <div class="swatch-text-row">
                 <span id="swatchMinText">-</span>
-                <button id="copySwatchMin" type="button" class="copy-btn" aria-label="Copy minimum albedo hex code">Copy</button>
+                <button id="copySwatchMin" type="button" class="copy-btn" data-i18n="copy" data-i18n-aria="copyMinAria" aria-label="Copy minimum albedo hex code">Copy</button>
               </div>
             </div>
 
             <div class="swatch">
-              <small>Maximum</small>
+              <small data-i18n="maximum">Maximum</small>
               <div id="swatchMax" class="swatch-chip"></div>
               <div class="swatch-text-row">
                 <span id="swatchMaxText">-</span>
-                <button id="copySwatchMax" type="button" class="copy-btn" aria-label="Copy maximum albedo hex code">Copy</button>
+                <button id="copySwatchMax" type="button" class="copy-btn" data-i18n="copy" data-i18n-aria="copyMaxAria" aria-label="Copy maximum albedo hex code">Copy</button>
               </div>
             </div>
           </div>
@@ -172,7 +172,7 @@
       </article>
 
       <article class="panel">
-        <h2>Notes</h2>
+        <h2 data-i18n="notesTitle">Notes</h2>
         <ul id="notesList" class="notes"></ul>
       </article>
 
