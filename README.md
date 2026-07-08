@@ -22,7 +22,7 @@ Values are based on measured reflectance ranges for clean, uncoated, unweathered
 
 ## Features
 
-- Presets for 15 common real-world materials (concrete, wood, metal, plastic, glass, fabric, skin, and more)
+- Presets for 50+ common real-world materials (concrete, wood, metal, plastic, glass, fabric, skin, and more)
 - Engine-specific output for Generic PBR, Blender Principled, Unreal Engine, and Unity/HDRP
 - Linear albedo + sRGB color preview, with one-click copy of the hex codes
 - Light / dark theme toggle
@@ -45,7 +45,7 @@ so setting up a material is easier and more consistent — without aiming for pe
 
 ## Supported materials
 
-Concrete · Plaster · Wood · Rubber · Aluminium · Steel · Copper · Brick · Ceramic · Plastic · Glass · Fabric · Asphalt · Snow · Skin
+Concrete · Plaster · Wood (Light/Dark) · Rubber · Aluminium · Steel · Copper · Brick · Ceramic · Plastic · Glass · Fabric · Asphalt · Snow · Skin · Gold · Silver · Iron · Chrome · Brass · Titanium · Zinc · Nickel · Platinum · Lead · Tin · Marble · Granite · Limestone · Sandstone · Slate · Obsidian · Sand · Dirt/Soil · Gravel · Chalk · Leather · Wax · Bark · Paper · Cardboard · Cork · Water · Ice · Paint (Glossy/Matte) · Tile · Vinyl · Carpet · Foam
 
 More materials may be added over time.
 
